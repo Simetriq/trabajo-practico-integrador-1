@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
+  "type": "module",
   "scripts": {
     "dev": "node --watch app.js"
   },
@@ -26,5 +27,7 @@
     "jsonwebtoken": "^9.0.2",
     "mysql2": "^3.14.4",
     "sequelize": "^6.37.7"
-  }
+  },
+  "devDependencies": {},
+  "keywords": []
 }
