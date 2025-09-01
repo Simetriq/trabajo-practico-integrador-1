@@ -1,4 +1,4 @@
-import ArticleTagModel from "../models/ArticleTag.model.js";
+import ArticleTagModel from "./models/articleTag.model.js";
 
 export const postArticleTag = async (req, res) => {
   try {
@@ -6,11 +6,9 @@ export const postArticleTag = async (req, res) => {
     return res.status(200).json(crearUnArticleTag);
   } catch (error) {
     console.log(error);
-    return res
-      .status(400)
-      .json({
-        message: "Error al tratar de crear una relación artículo-etiqueta",
-      });
+    return res.status(400).json({
+      message: "Error al tratar de crear una relación artículo-etiqueta",
+    });
   }
 };
 
@@ -19,11 +17,9 @@ export const getArticleTag = async (req, res) => {
     const findArticleTagById = await ArticleTagModel.findByPk(req.params.id);
     return res.status(200).json(findArticleTagById);
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: "Error al tratar de traer una relación artículo-etiqueta",
-      });
+    return res.status(400).json({
+      message: "Error al tratar de traer una relación artículo-etiqueta",
+    });
   }
 };
 
@@ -32,11 +28,9 @@ export const getAllArticleTags = async (req, res) => {
     const traerTodo = await ArticleTagModel.findAll();
     return res.status(200).json(traerTodo);
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message: "Error al tratar de traer las relaciones artículo-etiqueta",
-      });
+    return res.status(400).json({
+      message: "Error al tratar de traer las relaciones artículo-etiqueta",
+    });
   }
 };
 
@@ -46,25 +40,18 @@ export const deleteArticleTag = async (req, res) => {
       where: { id: req.params.id },
     });
     if (deleteArticleTagById)
-      return res
-        .status(200)
-        .json({
-          message:
-            "La relación artículo-etiqueta se ha eliminado correctamente",
-        });
+      return res.status(200).json({
+        message: "La relación artículo-etiqueta se ha eliminado correctamente",
+      });
     else {
-      return res
-        .status(400)
-        .json({
-          message: "Error al tratar de eliminar una relación artículo-etiqueta",
-        });
-    }
-  } catch (error) {
-    return res
-      .status(400)
-      .json({
+      return res.status(400).json({
         message: "Error al tratar de eliminar una relación artículo-etiqueta",
       });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      message: "Error al tratar de eliminar una relación artículo-etiqueta",
+    });
   }
 };
 
@@ -85,11 +72,9 @@ export const updateArticleTag = async (req, res) => {
       });
     }
   } catch (error) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Error en la petición de actualización de relación artículo-etiqueta",
-      });
+    return res.status(400).json({
+      message:
+        "Error en la petición de actualización de relación artículo-etiqueta",
+    });
   }
 };
