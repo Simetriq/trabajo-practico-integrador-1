@@ -26,7 +26,7 @@ const ProfileModel = sequelize.define(
     },
   },
   {
-    timestamps: false,
+    // timestamps: false,
   }
 );
 

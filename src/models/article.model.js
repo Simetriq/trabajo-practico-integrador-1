@@ -24,6 +24,8 @@ const ArticleModel = sequelize.define(
     },
   },
   {
-    timestamps: false,
+    // timestamps: false,
   }
 );
+
+export default ArticleModel;
