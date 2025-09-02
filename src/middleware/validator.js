@@ -1,6 +1,6 @@
 import { validationResult } from "express-validator";
 
-const controller = (req, res, next) => {
+const validations = (req, res, next) => {
   const result = validationResult(req);
   // 1. Errores como array
   console.log(result.array());
@@ -12,8 +12,11 @@ const controller = (req, res, next) => {
   });
   console.log(custom.array());
   // 4. También podrías hacer result.throw()
-  // res.status(400).json({ errors: result.array() });
+
+  if (!result.isEmpty()) {
+    return res.status(400).json({ errors: result.array() });
+  }
   next();
 };
 
-export default controller;
+export default validations;

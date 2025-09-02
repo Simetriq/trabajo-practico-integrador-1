@@ -1,5 +1,6 @@
 import { body, param } from "express-validator";
 import ProfileModel from "../../models/profile.model.js";
+import ProfileModel from "../../models/profile.model.js";
 
 export const createProfileValidation = [
   body("first_name")
