@@ -10,9 +10,9 @@ import {
 const routesProfile = express.Router();
 
 routesProfile.post("/profile", postProfile);
-routesProfile.get("/profile", getProfile);
-routesProfile.get("/profile/:id", getAllProfiles);
-routesProfile.put("/profile/:id", deleteProfile);
-routesProfile.delete("/profile/:id", updateProfile);
+routesProfile.get("/profile", getAllProfiles);
+routesProfile.get("/profile/:id", getProfile);
+routesProfile.put("/profile/:id", updateProfile);
+routesProfile.delete("/profile/:id", deleteProfile);
 
 export default routesProfile;
