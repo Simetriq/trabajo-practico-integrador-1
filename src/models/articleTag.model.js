@@ -1,14 +1,11 @@
 import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
-import UserModel from "./user.model.js";
+import TagModel from "./tag.model.js";
 
 const ArticleTagModel = sequelize.define(
   "ArticleTag",
   {
-    name: {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
+    id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
   },
   {
     // timestamps: false,
@@ -17,8 +14,12 @@ const ArticleTagModel = sequelize.define(
 
 export default ArticleTagModel;
 
-ArticleTagModel.belongsTo(UserModel, { foreignKey: "user_model_id" });
-ArticleTagModel.belongsTo(ArticleTagModel, { foreignKey: "ArticleTag_id" });
+ArticleTagModel.belongsToMany(TagModel, {
+  through: "ArticletagModel",
+  as: "tags",
+});
 
-UserModel.hasMany(ArticleTagModel, { foreignKey: "user_model_id" });
-ArticleTagModel.hasMany(ArticleTagModel, { foreignKey: "ArticleTag_id" });
+TagModelModel.belongsToMany(ArticleTagModel, {
+  through: "ArticleTagModel",
+  as: "articles",
+});
