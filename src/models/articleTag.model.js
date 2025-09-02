@@ -1,5 +1,6 @@
 import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
+import UserModel from "./user.model.js";
 
 const ArticleTagModel = sequelize.define(
   "ArticleTag",
@@ -15,3 +16,9 @@ const ArticleTagModel = sequelize.define(
 );
 
 export default ArticleTagModel;
+
+ArticleTagModel.belongsTo(UserModel, { foreignKey: "user_model_id" });
+ArticleTagModel.belongsTo(ArticleTagModel, { foreignKey: "ArticleTag_id" });
+
+UserModel.hasMany(ArticleTagModel, { foreignKey: "user_model_id" });
+ArticleTagModel.hasMany(ArticleTagModel, { foreignKey: "ArticleTag_id" });
