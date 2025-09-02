@@ -1,67 +1,174 @@
 import { body, param } from "express-validator";
+import UserModel from "../../models/user.model.js";
 
-export const createUser = [
-  body("username").trim().notEmpty().isLength({ min: 2, max: 50 }).escape(),
+export const createUserValidation = [
+  body("username")
+    .trim()
+    .notEmpty()
+    .withMessage("El username es obligatorio")
+    .isLength({ min: 3, max: 20 })
+    .withMessage(
+      "El username debe tener un minimo de 3 caracteres y un maximo de 20"
+    )
+    .isAlphanumeric()
+    .withMessage("El username debe ser alfanumerico")
+    .custom(async (username) => {
+      const usernameMinuscula = username.toLowerCase();
+      const user = await UserModel.findOne({
+        where: { username: usernameMinuscula },
+      });
+      if (user) {
+        throw new Error("El usurname ya existe");
+      }
+      return true;
+    })
+    .escape(),
   body("email")
     .trim()
     .notEmpty()
+    .withMessage("El email es obliatorio")
     .isEmail()
-    .withMessage("Email invalido")
-    .normalizeEmail()
+    .withMessage("No tiene el formato ejemplo@gmail.com")
+    .isLength({ max: 100 })
+    .withMessage("El email debe tener al un maximos de 100 caracteres ")
     .custom(async (email) => {
-      try {
-        const emailExiste = await User.findOne({ where: { email } });
-        if (emailExiste) {
-          return Promise.reject("El email pertenece a otro usuario");
-        }
-      } catch (error) {
-        return Promise.reject("Error checking email availability");
+      const emailMinuscula = email.toLowerCase();
+      const emailExiste = await UserModel.findOne({
+        where: { email: emailMinuscula },
+      });
+      if (emailExiste) {
+        throw new Error("El email ya existe");
       }
-    }),
+      return true;
+    })
+    .escape(),
   body("password")
-    .notEmpty()
     .trim()
-    .isLength({ min: 1 })
-    .withMessage("La contraseña debe de ser minimo de 1")
-    .matches(/^(?=.[a-z])(?=.[A-Z])(?=.\d).$/)
+    .notEmpty()
+    .withMessage("El password es obligatorio")
+    .isLength({ min: 8, max: 255 })
+    .withMessage(
+      "El password debe tener un minimo de 8 caracteres y no puede tener más de 255 caracteres"
+    )
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/)
     .withMessage(
       "La contraseña debe tener al menos una minuscula, una mayuscula y un número"
     ),
-  role("role")
-    .notEmpty()
-    .trim()
-    .isString()
-    .withMessage("Role no es un string")
-    .isIn(["user", "admin"])
-    .withMessage('El rol debe ser "user" o "admin"'),
+  body("role")
+    .optional()
+    .customSanitizer((value) => {
+      //Uso customSanitizer para poder modificar el valor, con custom solo puedo verificar si se cumple la condición
+      if (!value || value.trim() === "") return "user";
+      return value;
+    })
+    .isIn(["user", "admin"]) //solo acepta los valores dentro de la array
+    .withMessage("El campo role sólo puede ser 'user' o 'admin'"),
+];
+
+export const getUserByPkValidation = [
+  param("id")
+    .isInt()
+    .withMessage("El id debe ser un número entero")
+    .custom(async (id) => {
+      if (Number(id) < 1) throw new Error("El id debe ser positivo");
+      return true;
+    })
+    .custom(async (id) => {
+      const user = await UserModel.findByPk(id);
+      if (!user) throw new Error("El usuario no existe");
+      return true;
+    }),
 ];
 
 export const updateUserValidation = [
-  body("name").optional().isLength({ min: 2, max: 50 }).trim().escape(),
-  body("email")
-    .optional()
-    .isEmail()
-    .withMessage("Email invalido")
-    .normalizeEmail(),
-  body("password").optional().isLength({ min: 6 }).matches(/\d/),
-  body("role")
+  param("id")
+    .isInt()
+    .withMessage("El id debe ser un número entero")
+    .custom(async (id) => {
+      if (Number(id) < 1) throw new Error("El id debe ser positivo");
+      return true;
+    })
+    .custom(async (id) => {
+      const user = await UserModel.findByPk(id);
+      if (!user) throw new Error("El usuario no existe");
+      return true;
+    }),
+  body("username")
     .optional()
     .trim()
-    .isString()
-    .withMessage("Role no es un string")
+    .notEmpty()
+    .withMessage("El username es obligatorio")
+    .isLength({ min: 3, max: 20 })
+    .withMessage(
+      "El username debe tener un minimo de 3 caracteres y un maximo de 20"
+    )
+    .isAlphanumeric()
+    .withMessage("El username debe ser alfanumerico")
+    .custom(async (username) => {
+      const usernameMinuscula = username.toLowerCase();
+      const user = await UserModel.findOne({
+        where: { username: usernameMinuscula },
+      });
+      if (user) {
+        throw new Error("El username ya existe");
+      }
+      return true;
+    })
+    .escape(),
+  body("email")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("El email es obliatorio")
+    .isEmail()
+    .withMessage("No tiene el formato ejemplo@gmail.com")
+    .isLength({ max: 100 })
+    .withMessage("El email debe tener al un maximos de 100 caracteres ")
+    .custom(async (email) => {
+      const emailMinuscula = email.toLowerCase();
+      const emailExiste = await UserModel.findOne({
+        where: { email: emailMinuscula },
+      });
+      if (emailExiste) {
+        throw new Error("El email ya existe");
+      }
+      return true;
+    })
+    .escape(),
+  body("password")
+    .optional()
+    .trim()
+    .notEmpty()
+    .withMessage("El password es obligatorio")
+    .isLength({ min: 8, max: 255 })
+    .withMessage(
+      "El password debe tener un minimo de 8 caracteres y no puede tener más de 255 caracteres"
+    )
+    .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).*$/)
+    .withMessage(
+      "La contraseña debe tener al menos una minuscula, una mayuscula y un número"
+    ),
+  body("role")
+    .optional()
+    .customSanitizer((value) => {
+      if (!value || value.trim() === "") return "user";
+      return value;
+    })
     .isIn(["user", "admin"])
-    .withMessage('El rol debe ser "user" o "admin"'),
+    .withMessage("El campo role sólo puede ser 'user' o 'admin'"),
 ];
+
 export const deleteUserValidation = [
   param("id")
-    .isInt({ min: 1 })
-    .withMessage(`ID debe ser un numero entero positivo`)
-    .toInt(),
-];
-export const userByIdValidation = [
-  param("id")
-    .notEmpty()
-    .isInt({ min: 1 })
-    .withMessage(`ID debe ser un numero entero positivo`)
-    .toInt(),
+    .isInt()
+    .withMessage("El id debe ser un número entero")
+    .custom(async (id) => {
+      if (Number(id) < 1) throw new Error("El id debe ser positivo");
+      return true;
+    })
+    .custom(async (id) => {
+      const user = await UserModel.findByPk(id);
+      if (!user) throw new Error("El ususario no existe");
+      return true;
+    }),
 ];
