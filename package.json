@@ -28,6 +28,5 @@
     "mysql2": "^3.14.4",
     "sequelize": "^6.37.7"
   },
-  "devDependencies": {},
   "keywords": []
 }
