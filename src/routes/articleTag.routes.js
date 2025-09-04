@@ -12,31 +12,45 @@ import {
 } from "../middleware/validations/article_tag.validator.js";
 import validations from "../middleware/validator.js";
 
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import { ownerMiddleware } from "../middleware/owner.middleware.js";
+
 const routesArticleTag = express.Router();
 
 routesArticleTag.post(
-  "/user",
+  "/articletag",
+  authMiddleware,
   createArticleTagValidation,
   validations,
   postArticleTag
 );
-routesArticleTag.get("/user", getAllArticleTags);
+
+routesArticleTag.get("/articletag", authMiddleware, getAllArticleTags);
+
 routesArticleTag.get(
-  "/user/:id",
+  "/articletag/:id",
+  authMiddleware,
   getByPkArticleTagValidation,
   validations,
+  ownerMiddleware,
   getArticleTag
 );
+
 routesArticleTag.put(
-  "/user/:id",
-  updateArticleTag,
+  "/articletag/:id",
+  authMiddleware,
+  createArticleTagValidation,
   validations,
+  ownerMiddleware,
   updateArticleTag
 );
+
 routesArticleTag.delete(
-  "/user/:id",
-  deleteArticleTag,
+  "/articletag/:id",
+  authMiddleware,
+  getByPkArticleTagValidation,
   validations,
+  ownerMiddleware,
   deleteArticleTag
 );
 

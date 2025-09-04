@@ -5,6 +5,8 @@ import {
   getArticle,
   postArticle,
   updateArticle,
+  getArticleUserLogin,
+  getArticleUserLoginById,
 } from "../controllers/article.controller.js";
 import {
   createArticleValidation,
@@ -12,23 +14,53 @@ import {
   getArticleByPkValidation,
 } from "../middleware/validations/article.validator.js";
 import validations from "../middleware/validator.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import { dataValidada } from "../middleware/matched_data.middleware.js";
 
 const routesArticle = express.Router();
 
-routesArticle.post("/tag", createArticleValidation, validations, postArticle);
-routesArticle.get("/tag", getAllArticles);
+routesArticle.post(
+  "/article",
+  authMiddleware,
+  createArticleValidation,
+  validations,
+  dataValidada,
+  postArticle
+);
+
+routesArticle.get("/articles", authMiddleware, getAllArticles);
+
 routesArticle.get(
-  "/tag/:id",
+  "/article/:id",
+  authMiddleware,
   getArticleByPkValidation,
   validations,
   getArticle
 );
-routesArticle.put("/tag/:id", updateArticle, validations, updateArticle);
+
+routesArticle.get("/article/user", authMiddleware, getArticleUserLogin);
+
+routesArticle.put(
+  "/article/:id",
+  authMiddleware,
+  createArticleValidation,
+  validations,
+  dataValidada,
+  updateArticle
+);
+
 routesArticle.delete(
-  "/tag/:id",
+  "/article/:id",
+  authMiddleware,
   deleteArticleValidation,
   validations,
   deleteArticle
+);
+
+routesArticle.get(
+  "/articles/user/:id",
+  authMiddleware,
+  getArticleUserLoginById
 );
 
 export default routesArticle;
