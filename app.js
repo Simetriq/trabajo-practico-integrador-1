@@ -6,8 +6,9 @@ import routesProfile from "./src/routes/profile.routes.js";
 import routesTag from "./src/routes/tag.routes.js";
 import routesArticle from "./src/routes/article.routes.js";
 import routesArticleTag from "./src/routes/articleTag.routes.js";
-import { authRoutes } from "./src/routes/auth.routes.js";
-
+import { authRoutes } from "./src/routes/outh.routes.js";
+import cookieParser from "cookie-parser";
+import cors from "cors";
 dotenv.config();
 
 const app = express();

@@ -9,18 +9,18 @@ import {
 import {
   createRegisterValidation,
   updateProfileValidation,
-} from "../middlewares/validations/auth.validation.js";
+} from "../middleware/validations/auth.validation.js";
 
-import validation from "../middlewares/validator.js";
-import { authMiddleware } from "../middlewares/auth.middleware.js";
-import { dataValidada } from "../middlewares/matched_data.middleware.js";
+import validations from "../middleware/validator.js";
+import { authMiddleware } from "../middleware/auth.middleware.js";
+import { dataValidada } from "../middleware/matched_data.middleware.js";
 
 export const authRoutes = Router();
 
 authRoutes.post(
   "/auth/register",
   createRegisterValidation,
-  validation,
+  validations,
   dataValidada,
   register
 );
@@ -35,7 +35,7 @@ authRoutes.put(
   "/auth/profile",
   authMiddleware,
   updateProfileValidation,
-  validation,
+  validations,
   dataValidada,
   updateProfile
 );
