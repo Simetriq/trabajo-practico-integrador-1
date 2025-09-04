@@ -17,9 +17,11 @@ export default ArticleTagModel;
 ArticleTagModel.belongsToMany(TagModel, {
   through: "ArticletagModel",
   as: "tags",
+  onDelete: "CASCADE",
 });
 
-TagModelModel.belongsToMany(ArticleTagModel, {
+TagModel.belongsToMany(ArticleTagModel, {
   through: "ArticleTagModel",
   as: "articles",
+  onDelete: "CASCADE",
 });

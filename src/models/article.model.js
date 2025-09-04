@@ -1,5 +1,6 @@
 import sequelize from "../config/database.js";
 import { DataTypes } from "sequelize";
+import UserModel from "./user.model.js";
 
 const ArticleModel = sequelize.define(
   "Article",
@@ -30,12 +31,12 @@ const ArticleModel = sequelize.define(
 
 export default ArticleModel;
 
-Article.belongsTo(User, {
+ArticleModel.belongsTo(UserModel, {
   foreignKey: "user_id",
   as: "author",
 });
 
-User.hasMany(Article, {
+UserModel.hasMany(ArticleModel, {
   foreignKey: "user_id",
   as: "articles",
 });

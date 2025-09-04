@@ -1,4 +1,4 @@
-import ArticleTagModel from "./models/articleTag.model.js";
+import ArticleTagModel from "../models/articleTag.model.js";
 
 export const postArticleTag = async (req, res) => {
   try {

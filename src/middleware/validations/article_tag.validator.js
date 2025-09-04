@@ -1,7 +1,7 @@
 import { body, param } from "express-validator";
 import ArticleModel from "../../models/article.model.js";
 import TagModel from "../../models/tag.model.js";
-import ArticleTagModel from "../../models/article_tag.model.js";
+import ArticleTagModel from "../../models/articleTag.model.js";
 
 export const createArticleTagValidation = [
   body("article_id")

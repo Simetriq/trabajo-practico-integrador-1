@@ -23,7 +23,6 @@ const UserModel = sequelize.define(
     },
   },
   {
-    deleted_at: true,
     paranoid: true,
   }
 );
