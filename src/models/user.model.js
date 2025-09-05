@@ -18,8 +18,8 @@ const UserModel = sequelize.define(
       allowNull: false,
     },
     role: {
-      type: DataTypes.STRING(100),
-      allowNull: false,
+      type: DataTypes.ENUM("user", "admin"),
+      defaultValue: "user",
     },
   },
   {

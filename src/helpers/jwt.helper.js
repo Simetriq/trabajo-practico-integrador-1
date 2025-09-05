@@ -9,7 +9,7 @@ export const generateToken = (payload) => {
   // payload: Datos que quieres incluir en el token (ej: { userId: 1, role: 'user' })
   try {
     return jwt.sign(payload, process.env.JWT_SECRET, {
-      // process.env.JWT_SECRET: Clave secreta para firmar el token //! Estan en .env
+      // process.env.JWT_SECRET: Clave secreta para firmar el token // Estan en .env
       expiresIn: "1h", // Token // llave válido por 1 hora
     });
   } catch (error) {

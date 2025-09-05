@@ -8,6 +8,7 @@ export const dataValidada = async (req, res, next) => {
         .status(404)
         .json({ message: "La data tiene que ser correcta" });
     }
+    console.log(Object.keys(data));
     req.data = data;
     next();
   } catch (error) {
