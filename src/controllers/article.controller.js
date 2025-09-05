@@ -1,7 +1,17 @@
 import ArticleModel from "../models/article.model.js";
+import UserModel from "../models/user.model.js";
 
 export const postArticle = async (req, res) => {
   try {
+    const data = req.data;
+
+    const article = await ArticleModel.create({
+      title: data.title,
+      content: data.content,
+      excerpt: data.excerpt,
+      status: data.status,
+      user_id: req.user.id,
+    });
     const crearUnArticulo = await ArticleModel.create(req.body);
     return res.status(200).json(crearUnArticulo);
   } catch (error) {
@@ -35,7 +45,15 @@ export const getAllArticles = async (req, res) => {
 };
 
 export const deleteArticle = async (req, res) => {
+  const { id } = req.params;
   try {
+    const article = await ArticleModel.findByPk(id, {
+      include: {
+        model: UserModel,
+        as: "author",
+        attributes: { exclude: ["password"] },
+      },
+    });
     const deleteArticleById = await ArticleModel.destroy({
       where: { id: req.params.id },
     });
