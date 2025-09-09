@@ -3,11 +3,9 @@ import {
   deleteUser,
   GetAllUsers,
   getUserId,
-  postUser,
   updateUser,
 } from "../controllers/user.controller.js";
 import {
-  createUserValidation,
   deleteUserValidation,
   getUserByPkValidation,
   updateUserValidation,
@@ -18,7 +16,6 @@ import { adminMiddleware } from "../middleware/admin.middleware.js";
 
 const routesUser = express.Router();
 
-routesUser.post("/user", createUserValidation, validations, postUser);
 routesUser.get("/user", authMiddleware, adminMiddleware, GetAllUsers);
 routesUser.get("/user/:id", getUserByPkValidation, validations, getUserId);
 routesUser.put("/user/:id", updateUserValidation, validations, updateUser);

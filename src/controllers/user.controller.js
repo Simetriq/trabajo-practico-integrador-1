@@ -1,15 +1,5 @@
 import UserModel from "../models/user.model.js";
 
-export const postUser = async (req, res) => {
-  try {
-    const crearUnUsuario = await UserModel.create(req.body);
-    return res.status(200).json(crearUnUsuario);
-  } catch (error) {
-    return res
-      .status(400)
-      .json({ message: "Error al tratar de crear un usuario" });
-  }
-};
 export const GetAllUsers = async (req, res) => {
   try {
     const GetUsers = await UserModel.findAll({

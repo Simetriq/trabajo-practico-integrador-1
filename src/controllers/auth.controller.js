@@ -53,6 +53,7 @@ export const login = async (req, res) => {
     return res.status(401).json({ message: "password inválidas" });
   }
 
+  console.log(user.profile.first_name);
   const token = generateToken({
     id: user.id,
     role: user.role,

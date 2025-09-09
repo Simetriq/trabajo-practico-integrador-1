@@ -28,7 +28,7 @@ routesArticle.post(
   postArticle
 );
 
-routesArticle.get("/articles", authMiddleware, getAllArticles);
+routesArticle.get("/article", authMiddleware, getAllArticles);
 
 routesArticle.get(
   "/article/:id",

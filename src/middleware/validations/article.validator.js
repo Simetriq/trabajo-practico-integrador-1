@@ -26,13 +26,10 @@ export const createArticleValidation = [
     .withMessage("El excerpt no puede contener mas de 500 caracteres")
     .escape(),
   body("status")
-    .customSanitizer(async (value) => {
-      if (!value || value.trim() === "") return "published";
-      return value;
-    })
     .isIn(["published", "archived"])
     .withMessage("El status solo puede ser published o archived "),
   body("user_id")
+    .optional()
     .notEmpty()
     .withMessage("El user_id es obligatorio")
     .isInt()

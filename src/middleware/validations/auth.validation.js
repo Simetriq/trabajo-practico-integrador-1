@@ -43,6 +43,7 @@ export const createRegisterValidation = [
     .escape(),
 
   body("password")
+    .optional()
     .trim()
     .notEmpty()
     .withMessage("El password es obligatorio")
